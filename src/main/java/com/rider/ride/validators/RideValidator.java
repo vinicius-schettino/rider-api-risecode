@@ -61,7 +61,7 @@ public class RideValidator implements Validator {
         return (input == null);
     }
 
-    private boolean checkDecimal(BigDecimal input) {
+    private boolean checkDecimal(Double input) {
         return (input == null);
     }
 }

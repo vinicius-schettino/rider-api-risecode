@@ -1,7 +1,7 @@
 package com.rider.ride.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +19,7 @@ public class Ride {
     private Integer passenger;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private Double price;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -38,7 +38,8 @@ public class Ride {
     private Float destinationLocation_Y;
 
     @OneToMany(mappedBy = "ride")
-    private List<Review> review;
+    @JsonManagedReference
+    private List<Review> reviews;
 
     public UUID getId(){
         return this.id;
@@ -52,7 +53,7 @@ public class Ride {
         return this.passenger;
     }
 
-    public BigDecimal getPrice(){
+    public Double getPrice(){
         return this.price;
     }
 
@@ -76,8 +77,10 @@ public class Ride {
         return this.destinationLocation_Y;
     }
 
-    public List<Review> getReview(){
-        return this.review;
+    public List<Review> getReviews(){ return this.reviews; }
+
+    public void setId(){
+        this.id = id;
     }
 
     public void setDriver(){
@@ -88,11 +91,11 @@ public class Ride {
         this.passenger = passenger;
     }
 
-    public void setPrice(){
+    public void setPrice(Double price){
         this.price = price;
     }
 
-    public void setState(){
+    public void setState(RideState state){
         this.state = state;
     }
 
@@ -112,7 +115,7 @@ public class Ride {
         this.destinationLocation_Y = destinationLocation_Y;
     }
 
-    public void setReview(){
-        this.review = review;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
