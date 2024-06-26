@@ -11,7 +11,7 @@ public class RideDTO {
     private int passenger;
     private float boardingLocation_X;
     private float boardingLocation_Y;
-private float destinationLocation_X;
+    private float destinationLocation_X;
     private float destinationLocation_Y;
 
     public Integer getDriver(){
