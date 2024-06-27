@@ -79,15 +79,15 @@ public class Ride {
 
     public List<Review> getReviews(){ return this.reviews; }
 
-    public void setId(){
+    public void setId(UUID id){
         this.id = id;
     }
 
-    public void setDriver(){
+    public void setDriver(Integer driver){
         this.driver = driver;
     }
 
-    public void setPassenger(){
+    public void setPassenger(Integer passenger){
         this.passenger = passenger;
     }
 
@@ -99,20 +99,20 @@ public class Ride {
         this.state = state;
     }
 
-    public void setBoardingLocation_X(){
-        this.boardingLocation_X = boardingLocation_X;
+    public void setBoardingLocation_X(Float boardingLocationX){
+        this.boardingLocation_X = boardingLocationX;
     }
 
-    public void setBoardingLocation_Y(){
-        this.boardingLocation_Y = boardingLocation_Y;
+    public void setBoardingLocation_Y(Float boardingLocationY){
+        this.boardingLocation_Y = boardingLocationY;
     }
 
-    public void setDestinationLocation_X(){
-        this.destinationLocation_X = destinationLocation_X;
+    public void setDestinationLocation_X(Float destinationLocationX){
+        this.destinationLocation_X = destinationLocationX;
     }
 
-    public void setDestinationLocation_Y(){
-        this.destinationLocation_Y = destinationLocation_Y;
+    public void setDestinationLocation_Y(Float destinationLocationY){
+        this.destinationLocation_Y = destinationLocationY;
     }
 
     public void setReviews(List<Review> reviews) {
