@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class RideDTO {
-    private int driver;
-    private int passenger;
-    private float boardingLocation_X;
-    private float boardingLocation_Y;
-    private float destinationLocation_X;
-    private float destinationLocation_Y;
+    private Integer driver;
+    private Integer passenger;
+    private Float boardingLocation_X;
+    private Float boardingLocation_Y;
+    private Float destinationLocation_X;
+    private Float destinationLocation_Y;
 
     public Integer getDriver(){
         return this.driver;

@@ -10,7 +10,7 @@ public class ReviewDTO {
         return this.comment;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return this.rating;
     }
 

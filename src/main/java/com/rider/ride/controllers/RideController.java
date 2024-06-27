@@ -12,6 +12,7 @@ import com.rider.ride.validators.RideValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class RideController {
     private ReviewRepository reviewRepository;
 
     @GetMapping("/rides")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<Ride>> getAllRides() {
         List<Ride> rides = rideService.getAllRides();
         if (!rides.isEmpty()) {
@@ -38,7 +40,7 @@ public class RideController {
         }
     }
 
-    @PostMapping("/new")
+    @PostMapping("/rides")
     public ResponseEntity<Ride> createRide(@RequestBody RideDTO rideDTO) throws InvalidRequestException {
         RideValidator.validateRideDTO(rideDTO);
         Ride ride = new Ride();
@@ -52,7 +54,7 @@ public class RideController {
         return new ResponseEntity<>(newRide, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/rides/{id}")
     public ResponseEntity<Ride> getRide(@PathVariable UUID id) {
         Optional<Ride> ride = rideService.getRide(id);
         return ride.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -64,7 +66,7 @@ public class RideController {
         return ride.map(value -> ResponseEntity.ok(value.getState())).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}/status/accept")
+    @PostMapping("/{id}/status/accept")
     public ResponseEntity<Ride> acceptRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -77,7 +79,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/pickup")
+    @PostMapping("/{id}/status/pickup")
     public ResponseEntity<Ride> startRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -90,7 +92,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/pay")
+    @PostMapping("/{id}/status/pay")
     public ResponseEntity<Ride> requestPayment(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -103,7 +105,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/finish")
+    @PostMapping("/{id}/status/finish")
     public ResponseEntity<Ride> finishRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -116,7 +118,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/cancel")
+    @PostMapping("/{id}/status/cancel")
     public ResponseEntity<Ride> cancelRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -129,7 +131,7 @@ public class RideController {
         }
     }
 
-    @PostMapping("/{id}/reviews/add")
+    @PostMapping("/{id}/reviews")
     public ResponseEntity<Review> addReview(@PathVariable UUID id, @RequestBody ReviewDTO reviewDTO) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
