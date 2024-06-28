@@ -7,7 +7,10 @@ import com.rider.ride.entities.Ride;
 import com.rider.ride.entities.RideState;
 import com.rider.ride.repositories.ReviewRepository;
 import com.rider.ride.services.RidesManager;
+import com.rider.ride.validators.InvalidRequestException;
+import com.rider.ride.validators.RideValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -38,36 +41,33 @@ public class RideController {
     }
 
     @PostMapping("/rides")
-    public ResponseEntity<Ride> createRide(@RequestBody RideDTO rideDTO) {
-        Ride ride = new Ride();
-        ride.setBoardingLocation_X(rideDTO.getBoardingLocation_X());
-        ride.setBoardingLocation_Y(rideDTO.getBoardingLocation_Y());
-        ride.setDestinationLocation_X(rideDTO.getDestinationLocation_X());
-        ride.setDestinationLocation_Y(rideDTO.getDestinationLocation_Y());
-        ride.setDriver(rideDTO.getDriver());
-        ride.setPassenger(rideDTO.getPassenger());
-        Ride newRide = rideService.createRide(ride);
-        return ResponseEntity.ok(newRide);
+    public ResponseEntity<?> createRide(@RequestBody RideDTO rideDTO) {
+        try {
+            RideValidator.validateRideDTO(rideDTO);
+            Ride ride = new Ride();
+            ride.setBoardingLocation_X(rideDTO.getBoardingLocation_X());
+            ride.setBoardingLocation_Y(rideDTO.getBoardingLocation_Y());
+            ride.setDestinationLocation_X(rideDTO.getDestinationLocation_X());
+            ride.setDestinationLocation_Y(rideDTO.getDestinationLocation_Y());
+            ride.setDriver(rideDTO.getDriver());
+            ride.setPassenger(rideDTO.getPassenger());
+            Ride newRide = rideService.createRide(ride);
+            return new ResponseEntity<>(newRide, HttpStatus.CREATED);
+        } catch (InvalidRequestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/rides/{id}")
     public ResponseEntity<Ride> getRide(@PathVariable UUID id) {
         Optional<Ride> ride = rideService.getRide(id);
-        if (ride.isPresent()) {
-            return ResponseEntity.ok(ride.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ride.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}/status")
     public ResponseEntity<RideState> getRideCurrentStatus(@PathVariable UUID id) {
         Optional<Ride> ride = rideService.getRide(id);
-        if (ride.isPresent()) {
-            return ResponseEntity.ok(ride.get().getState());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ride.map(value -> ResponseEntity.ok(value.getState())).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/{id}/status/accept")
@@ -155,7 +155,7 @@ public class RideController {
     }
 
     @GetMapping("/{id}/reviews")
-    public ResponseEntity<List> getReviews(@PathVariable UUID id){
+    public ResponseEntity<List<Review>> getReviews(@PathVariable UUID id){
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()){
             Ride ride = optionalRide.get();

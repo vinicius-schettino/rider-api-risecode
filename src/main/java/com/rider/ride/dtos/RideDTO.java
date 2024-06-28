@@ -1,41 +1,35 @@
 package com.rider.ride.dtos;
 
-import com.rider.ride.entities.Review;
-import com.rider.ride.entities.RideState;
-
-import java.util.List;
-import java.util.UUID;
-
 public class RideDTO {
-    private Integer driver;
-    private Integer passenger;
-    private Float boardingLocation_X;
-    private Float boardingLocation_Y;
-    private Float destinationLocation_X;
-    private Float destinationLocation_Y;
+    private int driver;
+    private int passenger;
+    private double boardingLocation_X;
+    private double boardingLocation_Y;
+    private double destinationLocation_X;
+    private double destinationLocation_Y;
 
-    public Integer getDriver(){
+    public int getDriver(){
         return this.driver;
     }
 
-    public Integer getPassenger(){
+    public int getPassenger(){
         return this.passenger;
     }
 
-    public Float getBoardingLocation_X(){
-        return this.boardingLocation_X;
+    public Double getBoardingLocation_X(){
+        return (double) this.boardingLocation_X;
     }
 
-    public Float getBoardingLocation_Y(){
-        return this.boardingLocation_Y;
+    public Double getBoardingLocation_Y(){
+        return (double) this.boardingLocation_Y;
     }
 
-    public Float getDestinationLocation_X(){
-        return this.destinationLocation_X;
+    public Double getDestinationLocation_X(){
+        return (double) this.destinationLocation_X;
     }
 
-    public Float getDestinationLocation_Y(){
-        return this.destinationLocation_Y;
+    public Double getDestinationLocation_Y(){
+        return (double) this.destinationLocation_Y;
     }
 
     public void setDriver(int driver){
@@ -46,17 +40,17 @@ public class RideDTO {
         this.passenger = passenger;
     }
 
-    public void setBoardingLocation_X(float boardingLocation_X){ this.boardingLocation_X = boardingLocation_X;}
+    public void setBoardingLocation_X(double boardingLocation_X){ this.boardingLocation_X = boardingLocation_X;}
 
-    public void setBoardingLocation_Y(float boardingLocation_Y){
+    public void setBoardingLocation_Y(double boardingLocation_Y){
         this.boardingLocation_Y = boardingLocation_Y;
     }
 
-    public void setDestinationLocation_X(float destinationLocation_X){
+    public void setDestinationLocation_X(double destinationLocation_X){
         this.destinationLocation_X = destinationLocation_X;
     }
 
-    public void setDestinationLocation_Y(float destinationLocation_Y){
+    public void setDestinationLocation_Y(double destinationLocation_Y){
         this.destinationLocation_Y = destinationLocation_Y;
     }
 }

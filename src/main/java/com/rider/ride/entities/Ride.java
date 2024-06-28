@@ -26,16 +26,16 @@ public class Ride {
     private RideState state = RideState.WAITING_DRIVER;
 
     @Column(nullable = false)
-    private Float boardingLocation_X;
+    private Double boardingLocation_X;
 
     @Column(nullable = false)
-    private Float boardingLocation_Y;
+    private Double boardingLocation_Y;
 
     @Column(nullable = false)
-    private Float destinationLocation_X;
+    private Double destinationLocation_X;
 
     @Column(nullable = false)
-    private Float destinationLocation_Y;
+    private Double destinationLocation_Y;
 
     @OneToMany(mappedBy = "ride")
     @JsonManagedReference
@@ -61,19 +61,19 @@ public class Ride {
         return this.state;
     }
 
-    public Float getBoardingLocation_X(){
+    public Double getBoardingLocation_X(){
         return this.boardingLocation_X;
     }
 
-    public Float getBoardingLocation_Y(){
+    public Double getBoardingLocation_Y(){
         return this.boardingLocation_Y;
     }
 
-    public Float getDestinationLocation_X(){
+    public Double getDestinationLocation_X(){
         return this.destinationLocation_X;
     }
 
-    public Float getDestinationLocation_Y(){
+    public Double getDestinationLocation_Y(){
         return this.destinationLocation_Y;
     }
 
@@ -99,19 +99,19 @@ public class Ride {
         this.state = state;
     }
 
-    public void setBoardingLocation_X(Float boardingLocationX){
+    public void setBoardingLocation_X(Double boardingLocationX){
         this.boardingLocation_X = boardingLocationX;
     }
 
-    public void setBoardingLocation_Y(Float boardingLocationY){
+    public void setBoardingLocation_Y(Double boardingLocationY){
         this.boardingLocation_Y = boardingLocationY;
     }
 
-    public void setDestinationLocation_X(Float destinationLocationX){
+    public void setDestinationLocation_X(Double destinationLocationX){
         this.destinationLocation_X = destinationLocationX;
     }
 
-    public void setDestinationLocation_Y(Float destinationLocationY){
+    public void setDestinationLocation_Y(Double destinationLocationY){
         this.destinationLocation_Y = destinationLocationY;
     }
 
