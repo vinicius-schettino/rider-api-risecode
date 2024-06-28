@@ -41,17 +41,21 @@ public class RideController {
     }
 
     @PostMapping("/rides")
-    public ResponseEntity<Ride> createRide(@RequestBody RideDTO rideDTO) throws InvalidRequestException {
-        RideValidator.validateRideDTO(rideDTO);
-        Ride ride = new Ride();
-        ride.setBoardingLocation_X(rideDTO.getBoardingLocation_X());
-        ride.setBoardingLocation_Y(rideDTO.getBoardingLocation_Y());
-        ride.setDestinationLocation_X(rideDTO.getDestinationLocation_X());
-        ride.setDestinationLocation_Y(rideDTO.getDestinationLocation_Y());
-        ride.setDriver(rideDTO.getDriver());
-        ride.setPassenger(rideDTO.getPassenger());
-        Ride newRide = rideService.createRide(ride);
-        return new ResponseEntity<>(newRide, HttpStatus.CREATED);
+    public ResponseEntity<?> createRide(@RequestBody RideDTO rideDTO) {
+        try {
+            RideValidator.validateRideDTO(rideDTO);
+            Ride ride = new Ride();
+            ride.setBoardingLocation_X(rideDTO.getBoardingLocation_X());
+            ride.setBoardingLocation_Y(rideDTO.getBoardingLocation_Y());
+            ride.setDestinationLocation_X(rideDTO.getDestinationLocation_X());
+            ride.setDestinationLocation_Y(rideDTO.getDestinationLocation_Y());
+            ride.setDriver(rideDTO.getDriver());
+            ride.setPassenger(rideDTO.getPassenger());
+            Ride newRide = rideService.createRide(ride);
+            return new ResponseEntity<>(newRide, HttpStatus.CREATED);
+        } catch (InvalidRequestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/rides/{id}")
@@ -160,14 +164,5 @@ public class RideController {
         }else{
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @ExceptionHandler(InvalidRequestException.class)
-    private ResponseEntity<ErrorResponse> handleInvalidRequestException(InvalidRequestException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    record ErrorResponse(String error) {
     }
 }
